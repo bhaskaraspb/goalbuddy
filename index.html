@@ -13,8 +13,8 @@
 <button id="gobutton" type="button">Go!</button>
 </form>
 
-<h3 id="thanks">Thanks for signing up for GoalBuddy! Your goal buddy will receive an email shortly. 
-<p>In the meantime, start tracking your progress against your goal in the calendar below.</p>
+<h3 id="thanks">Thanks for signing up for GoalBuddy! Your goal buddy will receive an email shortly (still under construction). 
+<p>In the meantime, start tracking your progress against your goal in the December 2013 calendar below.</p>
 </h3>
 
 <table>
@@ -83,35 +83,28 @@ $(document).ready(function(){
 	$('#footer').hide();
 	$('#thanks').hide();
 
-/*$('td').click(function(){
-	console.log("HEY");
-	id = $(this).attr('id');
-	$("#"+id).show();
-});
-
-*/
-var counting_array = [];
-
-for (var i=1;i<33;i++) {
-	counting_array.push(0);
-	}
-console.log(counting_array);
-console.log(counting_array.length);
-var running_streak = 0;
-var max_streak = 0;
-
 $('#gobutton').click(function(){
 	$('#emailform').hide();
 	$('#thanks').show();
 });
 
+//Initialize a counting array to keep track of whether a calendar day is checked or not
+var counting_array = [];
+
+// Generate an array where each value represents the status of a given calendar day
+for (var i=1;i<33;i++) {
+	counting_array.push(0);
+	}
+var running_streak = 0;
+var max_streak = 0;
+
+//The code below will show an X on the calendar day when a user clicks, and hide
+// once the day is clicked again
 $('td').click(function(){
 	$('#footer').show();
     id = $(this).attr('id');
 	id = id.substring(0, id.length - 1);	
-//	counting_array.push("["+id,count+"]");
 	counting_array[id] = counting_array[id] + 1;
-	console.log(counting_array);
 	if (counting_array[id] % 2 ==0){
 		console.log("The count for day "+id+" is currently even. It is "+counting_array[id]+".");
 		$("#"+id).hide();}
@@ -119,50 +112,21 @@ $('td').click(function(){
 		console.log("The count for day "+id+" is currently odd. It is "+counting_array[id]+".");
 		$("#"+id).show();}
 	
+//The code below will calculate the maximum "streak" of continuous checked days which a 
+//user has achieved. 
 	var running_streak = 1;
 	var max_streak = 1;
 	for (i=1;i<32;i++) {
 	if ((counting_array[i] % 2 == 1) && (counting_array[i+1] % 2 == 1)) {
 		running_streak = running_streak + 1;
 		if (running_streak > max_streak) {
-			max_streak = running_streak;
-			console.log("greater than!");}
-		else {console.log("less than!");}
+			max_streak = running_streak;}
+		else { }
 	}
 	else {running_streak = 1;}
 };
 	$('#placeholder').text(max_streak);
-	console.log("Max streak is "+max_streak);
 });
 
-//$('span').click(function(){
-//	console.log("HEY");
-//    id = $(this).attr('id');
-//	console.log(id);
-//});
-
-//$("td").each(function(index, value) { 
-//    console.log('td' + (index+1) + ':' + $(this).attr('id')); 
-//    id = $(this).attr('id');
-//	counter = ((index+1).toString());
-//	console.log(counter);
-//});
-//	$("#"+counter).click(function(){
-//		console.log("#"+counter);
-//    $(str().click(function(){
-//   	$("#1").show();
-//});
-
-//	console.log('HEY');
-//	$("#1a").click(function(){
-//		$("#1").show();
-//	$("#1").click(function(){
-//		console.log('wtf');
-//		$("#1").hide();
-//});
-//});
-//	$("#2a").click(function(){
-//		$("#2").show();
-//});
 });
 </script>
