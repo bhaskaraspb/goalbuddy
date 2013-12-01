@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<html>
+	
+<head>
+</head>
+<body>
+  <link type="text/css" rel="stylesheet" href="stylesheet.css" />
+
+<h1>GoalBuddy</h1>
+<form id="emailform" action="/hello" method="POST">
+<h3>Enter the email address of your goal buddy here: <input class='_name' name="email" type="text" placeholder="">
+<button id="gobutton" type="button">Go!</button>
+</form>
+
+<h3 id="thanks">Thanks for signing up for GoalBuddy! Your goal buddy will receive an email shortly (still under construction). 
+<p>In the meantime, start tracking your progress against your goal in the December 2013 calendar below.</p>
+</h3>
+
+<table>
+<thead>
+<th>Sunday</th>
+<th>Monday</th>
+<th>Tuesday</th>
+<th>Wednesday</th>
+<th>Thursday</th>
+<th>Friday</th>
+<th>Saturday</th>
+</thead>
+
+<tbody>
+<tr>
+	<td id="1a"> 1st <span id="1">X</span> </td>
+	<td id="2a"> 2nd <span id="2">X</span> </td>
+	<td id="3a"> 3rd <span id="3">X</span> </td>
+	<td id="4a"> 4th <span id="4">X</span> </td>
+	<td id="5a"> 5th <span id="5">X</span> </td>
+	<td id="6a"> 6th <span id="6">X</span> </td>
+	<td id="7a"> 7th <span id="7">X</span> </td>
+</tr>
+<tr>
+	<td id="8a"> 8th <span id="8">X</span> </td>
+	<td id="9a"> 9th <span id="9">X</span> </td>
+	<td id="10a"> 10th <span class="dd" id="10">X</span> </td>
+	<td id="11a"> 11th <span class="dd" id="11">X</span> </td>
+	<td id="12a"> 12th <span class="dd" id="12">X</span> </td>
+	<td id="13a"> 13th <span class="dd" id="13">X</span> </td>
+	<td id="14a"> 14th <span class="dd" id="14">X</span> </td>	
+</tr>
+<tr>
+	<td id="15a"> 15th <span class="dd" id="15">X</span> </td>
+	<td id="16a"> 16th <span class="dd" id="16">X</span> </td>
+	<td id="17a"> 17th <span class="dd" id="17">X</span> </td>
+	<td id="18a"> 18th <span class="dd" id="18">X</span> </td>
+	<td id="19a"> 19th <span class="dd" id="19">X</span> </td>
+	<td id="20a"> 20th <span class="dd" id="20">X</span> </td>
+	<td id="21a"> 21st <span class="dd" id="21">X</span> </td>	
+</tr>
+<tr>
+	<td id="22a"> 22nd <span class="dd" id="22">X</span> </td>
+	<td id="23a"> 23rd <span class="dd" id="23">X</span> </td>
+	<td id="24a"> 24th <span class="dd" id="24">X</span> </td>
+	<td id="25a"> 25th <span class="dd" id="25">X</span> </td>
+	<td id="26a"> 26th <span class="dd" id="26">X</span> </td>
+	<td id="27a"> 27th <span class="dd" id="27">X</span></td>
+	<td id="28a"> 28th <span class="dd" id="28">X</span></td>	
+</tr>
+<tr>
+	<td id="29a"> 29th <span class="dd" id="29">X</span> </td>
+	<td id="30a"> 30th <span class="dd" id="30">X</span> </td>
+	<td id="31a"> 31st <span class="dd" id="31">X</span> </td>
+</tr>
+
+<div id="footer"><p>Great work!</p>You're off to a <p id="placeholder"></p> day streak!</div>
+
+</body>
+</html>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+</script>
+<script>
+$(document).ready(function(){
+	$('#footer').hide();
+	$('#thanks').hide();
+
+$('#gobutton').click(function(){
+	$('#emailform').hide();
+	$('#thanks').show();
+});
+
+//Initialize a counting array to keep track of whether a calendar day is checked or not
+var counting_array = [];
+
+// Generate an array where each value represents the status of a given calendar day
+for (var i=1;i<33;i++) {
+	counting_array.push(0);
+	}
+var running_streak = 0;
+var max_streak = 0;
+
+//The code below will show an X on the calendar day when a user clicks, and hide
+// once the day is clicked again
+$('td').click(function(){
+	$('#footer').show();
+    id = $(this).attr('id');
+	id = id.substring(0, id.length - 1);	
+	counting_array[id] = counting_array[id] + 1;
+	if (counting_array[id] % 2 ==0){
+		console.log("The count for day "+id+" is currently even. It is "+counting_array[id]+".");
+		$("#"+id).hide();}
+	else {
+		console.log("The count for day "+id+" is currently odd. It is "+counting_array[id]+".");
+		$("#"+id).show();}
+	
+//The code below will calculate the maximum "streak" of continuous checked days which a 
+//user has achieved. 
+	var running_streak = 1;
+	var max_streak = 1;
+	for (i=1;i<32;i++) {
+	if ((counting_array[i] % 2 == 1) && (counting_array[i+1] % 2 == 1)) {
+		running_streak = running_streak + 1;
+		if (running_streak > max_streak) {
+			max_streak = running_streak;}
+		else { }
+	}
+	else {running_streak = 1;}
+};
+	$('#placeholder').text(max_streak);
+});
+
+});
+</script>
