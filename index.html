@@ -72,7 +72,8 @@
 	<td id="31a"> 31st <span class="dd" id="31">X</span> </td>
 </tr>
 
-<div id="footer"><p>Great work!</p>You're off to a <p id="placeholder"></p> day streak!</div>
+<div id="footer"><p>Great work!</p>Your max streak is <p id="placeholder"></p> days! 
+<br><br> Your current streak is <p id="placeholder2"></p> days!</div>
 
 </body>
 </html>
@@ -98,6 +99,8 @@ for (var i=1;i<33;i++) {
 	}
 var running_streak = 0;
 var max_streak = 0;
+var current_streak = 0;
+var loop_done = 0;
 
 //The code below will show an X on the calendar day when a user clicks, and hide
 // once the day is clicked again
@@ -112,7 +115,37 @@ $('td').click(function(){
 	else {
 		console.log("The count for day "+id+" is currently odd. It is "+counting_array[id]+".");
 		$("#"+id).show();}
-	
+
+//GOAL: Calculate the current "streak" that a user is off to
+//We will compute this by iterating over counting array in a reverse fashion
+//There are four cases the loop can encounter
+//First case: current day is unchecked and previous day is checked
+//Desired outcome: Loop continues
+//Second case: current day is checked and previous day is checked
+//Desired outcome: current_streak is incremented and loop continues
+//Third case: current day is checked and previous day is unchecked
+//Desired outcome: current_streak is incremented and loop breaks
+//Fourth case: current day is unchecked and previous day is unchecked
+//Desired outcome: Loop continues
+
+	var current_streak = 0;
+	for (i=32;i>0;i--) {
+		if ((counting_array[i] % 2 == 0) && (counting_array[i-1] % 2 == 1)) {
+			continue;}
+		else if ((counting_array[i] % 2 == 1) && (counting_array[i-1] % 2 == 1)) {
+			current_streak++;}
+		else if ((counting_array[i] % 2 == 1) && (counting_array[i-1] % 2 == 0)) {
+			current_streak++;
+			break;}
+		else {
+			continue;};
+	};
+	console.log("Current streak is ",current_streak," days!");
+	$('#placeholder2').text(current_streak);
+
+//	var calculateStreak = function(days) {
+//	};
+
 //The code below will calculate the maximum "streak" of continuous checked days which a 
 //user has achieved. 
 	var running_streak = 1;
@@ -126,6 +159,7 @@ $('td').click(function(){
 	}
 	else {running_streak = 1;}
 };
+
 	$('#placeholder').text(max_streak);
 });
 
